@@ -1,0 +1,117 @@
+global:
+  apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  valuesFile: dev-values.yaml
+  metadata:
+    namespace: argocd
+  spec:
+    project: default
+    source:
+      repoURL: git@gitlab.com:gabbwireless/infrastructure/k8s.git
+      targetRevision: HEAD
+    destination:
+      server: https://kubernetes.default.svc
+
+argocdApps:
+  argocd-ingress:
+    enable: false
+    path: argocd-ingress
+  gabb-3com:
+    enable: true
+  gabb-api:
+    enable: true
+  gabb-app-management:
+    enable: true
+  gabb-channels:
+    enable: true
+  gabb-contacts:
+    enable: true
+  gabb-devices:
+    enable: true
+  gabb-intranet:
+    enable: true
+  gabb-knox:
+    enable: true
+  gabb-leaderboard-backend:
+    enable: true
+  gabb-location:
+    enable: true
+  gabb-log:
+    enable: true
+  gabb-message-service:
+    enable: true
+  gabb-music-service:
+    enable: true
+  gabb-products:
+    enable: true
+  gabb-redirect:
+    enable: true
+  gabb-schools:
+    enable: true
+  gabb-smartcom-tokens:
+    enable: true
+  gabb-step-tracker:
+    enable: true
+  gabb-updater-backend:
+    enable: true
+  gabb-updater-frontend:
+    enable: true
+  gabb-talk:
+    enable: true
+  gabb-task-manager:
+    enable: true
+  gabb-whisper:
+    enable: true
+    path: gabb-helm/whisper
+  gabb-wp:
+    enable: true
+  gabb-com:
+    enable: true
+  demo-k8s-app:
+    enable: true
+    valuesFile: main-values.yaml
+    greenEnv: true
+  gabb-id:
+    enable: true
+  cloud-token-server:
+    enable: true
+  mock-tuned-global-api:
+    enable: true
+  gabb-ecom:
+    enable: true
+  gabb-gatekeeper:
+    enable: true
+  gabb-gives:
+    enable: true 
+  gabb-media:
+    enable: true 
+  gabb-load-tester:
+    enable: true
+    valuesFile: main-values.yaml
+  # gabb-load-tester-test:
+  #   enable: true
+  #   valuesFile: test-values.yaml
+  #   path: gabb-helm/gabb-load-tester
+  #   namespace: gabb-load-tester
+  gabb-games:
+    enable: true
+  gabb-jwt-gatekeeper:
+    enable: true
+  phx-lookup:
+    enable: true
+  data-pond:
+    enable: true
+    valuesFile: main-values.yaml
+  gabb-contacts-new:
+    enable: true
+  gabb-id-new:
+    enable: true
+  kadabbra:
+    enable: true
+  gabb-billing:
+    enable: true
+  
+  # external-secrets-operator:
+  #   enable: false
+  #   path: external-secrets-operator
+  #   valuesFile: values.yaml

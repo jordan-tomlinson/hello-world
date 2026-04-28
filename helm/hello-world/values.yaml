@@ -5,10 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
+  repository: ghcr.io/jordan-tomlinson/hello-world
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # This value is automatically updated by the CI pipeline.
+  tag: "latest"
+
+containerPort: 3000
 
 imagePullSecrets: []
 nameOverride: ""

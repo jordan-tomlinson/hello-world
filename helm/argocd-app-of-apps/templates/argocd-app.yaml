@@ -1,0 +1,73 @@
+{{- range $app, $value := .Values.argocdApps -}}
+{{- if .enable }}
+apiVersion: {{ $.Values.global.apiVersion }}
+kind: {{ $.Values.global.kind }}
+metadata:
+  name: {{ .name | default $app }}
+  namespace: {{ $.Values.global.metadata.namespace }}
+spec:
+  project: {{ $.Values.global.spec.project }}
+  source:
+    repoURL:  {{ $.Values.global.spec.source.repoURL }}
+    targetRevision: {{ $.Values.global.spec.source.targetRevision }}
+    path: {{ .path | default (printf "gabb-helm/%s" $app) }}
+    {{- if not .directoryApp }}
+    helm:
+      valueFiles:
+      {{- if .valuesFiles }}
+      {{- range .valuesFiles }}
+      - {{ . }}
+      {{- end }}
+      {{- else }}
+      - {{ .valuesFile | default $.Values.global.valuesFile }}
+      {{- end }}
+    {{- end }}
+  destination:
+    server: {{ $.Values.global.spec.destination.server }}
+    namespace: {{ .namespace | default $app }}
+  syncPolicy:
+    {{- if not .disableAutoSync }}
+    automated:
+      prune: false
+      selfHeal: false
+    {{- end }}
+    syncOptions:
+      - CreateNamespace=true
+---
+{{- if .greenEnv }}
+apiVersion: {{ $.Values.global.apiVersion }}
+kind: {{ $.Values.global.kind }}
+metadata:
+  name: {{ .name | default $app }}-green
+  namespace: {{ $.Values.global.metadata.namespace }}
+spec:
+  project: {{ $.Values.global.spec.project }}
+  source:
+    repoURL:  {{ $.Values.global.spec.source.repoURL }}
+    targetRevision: {{ $.Values.global.spec.source.targetRevision }}
+    path: {{ .path | default (printf "gabb-helm/%s" $app) }}
+    helm:
+      valueFiles:
+      {{- if .valuesFiles }}
+      {{- range .valuesFiles }}
+      - {{ . }}
+      {{- end }}
+      {{- else }}
+      - {{ .valuesFile | default $.Values.global.valuesFile }}
+      {{- end }}
+      - green-values.yaml
+  destination:
+    server: {{ $.Values.global.spec.destination.server }}
+    namespace: {{ .namespace | default $app }}
+  syncPolicy:
+    {{- if not .disableAutoSync }}
+    automated:
+      prune: false
+      selfHeal: false
+    {{- end }}
+    syncOptions:
+      - CreateNamespace=true
+---
+{{- end }}
+{{- end }}
+{{- end }}
