@@ -56,6 +56,6 @@ jobs:
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-        git add helm/hello-world/values.yaml
+        git add helm/hello-world/${GITHUB_REF_NAME}values.yaml
         git commit -m "ci: update image tag to ${{ github.sha }} [skip ci]"
         git push
