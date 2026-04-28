@@ -1,20 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: hello-world
+  name: app-of-apps
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/jordan-tomlinson/hello-world.git
     targetRevision: HEAD
-    path: helm/hello-world
+    path: argo/helm/argocd-app-of-apps
+    helm:
+      valueFiles:
+        - main-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: argocd
   syncPolicy:
     automated:
-      prune: true
+      prune: false
       selfHeal: true
     syncOptions:
       - CreateNamespace=true

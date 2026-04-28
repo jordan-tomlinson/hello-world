@@ -1,0 +1,17 @@
+global:
+  apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  valuesFile: main-values.yaml
+  metadata:
+    namespace: argocd
+  spec:
+    project: default
+    source:
+      repoURL: https://github.com/jordan-tomlinson/hello-world.git
+      targetRevision: HEAD
+    destination:
+      server: https://kubernetes.default.svc
+
+argocdApps:
+  hello-world:
+    enable: true
