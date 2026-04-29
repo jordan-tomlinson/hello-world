@@ -9,7 +9,7 @@ image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   # This value is automatically updated by the CI pipeline.
-  tag: "dbc078c80ec1aa10147da7d03169686024b3054d"
+  tag: "4ce60e3ec82ca833eaf64167695c6ba928a4cf24"
 
 containerPort: 3000
 
