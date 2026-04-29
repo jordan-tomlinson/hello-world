@@ -51,12 +51,6 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-Wait for Argo CD to be ready:
-
-```bash
-kubectl wait --for=condition=available deployment/argocd-server -n argocd --timeout=120s
-```
-
 ### 3. Access the Argo CD UI
 
 In a separate terminal, start the port-forward:
@@ -114,8 +108,8 @@ The GitHub Actions pipeline (`.github/workflows/pipeline.yaml`) runs on every pu
 
 | Step | Description |
 |------|-------------|
-| `build` | Runs Node.js tests (`npm test`) |
-| `argo-deploy` | Builds and pushes Docker image to GHCR, updates `image.tag` in `helm/hello-world/main-values.yaml`, commits back to `main` |
+| `build` | Logs in to GHCR, builds the Docker image locally, runs Node.js unit tests (`npm test`), then pushes the image to GHCR |
+| `argo-deploy` | Updates `image.tag` in `helm/hello-world/<branch>-values.yaml` and commits back to `main` |
 
 Argo CD detects the committed tag change and automatically redeploys the app.
 
